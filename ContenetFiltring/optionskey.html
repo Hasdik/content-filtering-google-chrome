@@ -6,6 +6,13 @@
     <meta charset="UTF-8">
     <link href="popup.css" rel="stylesheet" type="text/css">
     <script src="myscript.js"></script>
+                    <script type="text/javascript">
+                    function keywords()
+                    {
+                                        chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, { action: 'search' });
+                    }
+                </script>
 </head>
 
 <body>
@@ -14,7 +21,8 @@
     <table border="0">
         <tr>
             <td>
-                <input type="text" class="newfilkey" id="vkFilter" value="гос">
+                <input type="text" class="newfilkey" id="vkFilter" value="гос" onclick="keywords()" >
+
             </td>
             <td>
                 <button id="filterup" class="button tick">Фильтровать</button>

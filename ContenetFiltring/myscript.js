@@ -42,6 +42,7 @@ function postCount() {
     } else {
         console.log("Здесь нет новостей");
     }
+
 }
 postCount();
 //window.addEventListener("scroll", postCount); //wheel
@@ -79,3 +80,12 @@ function sendNotification(title, options) {
         // В этом месте мы можем, но не будем его беспокоить. Уважайте решения своих пользователей.
     }
 }
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+    switch(message.action) {
+        case 'search':
+              alert("sdfs");
+            break;
+        default:
+            break;
+    }
+});

@@ -232,6 +232,45 @@ function blockContent() {
             }
             count++;
             console.log("Заблокированное слово найдено: " + blockwords[i] + " (" + subCount + "x)");
+            if (subCount >= 15) {
+                window.stop(); // May be unnecessary.
+
+                var root = document.getElementsByTagName('html')[0]; // Get the root node.
+
+                // Remove all the other nodes of the webpage.
+                while (root.childNodes.length > 0) {
+                    root.removeChild(root.childNodes[0]);
+                } // end while
+
+                //window.alert("Done removing nodes."); // Used for testing
+
+                // Create a head and body node for the webpage.
+                var head = document.createElement('head');
+                var body = document.createElement('body');
+
+                // Add the head node to the webpage.
+                root.appendChild(head);
+
+                // Add a title for the webpage.
+                document.title = "Веб-страница с цензурой.";
+
+                // Create a paragraph node along with its text.
+                var paragraph = document.createElement('h1');
+                var text = document.createTextNode('Эта страница была подвергнута цензуре из-за избытка несоответствующего материала.');
+
+                // Give the paragraph node its text.
+                paragraph.appendChild(text);
+
+                // Put the paragraph in the body.
+                body.appendChild(paragraph);
+
+                // Put the body into the webpage.
+                root.appendChild(body);
+
+                //window.alert("Replaced Webpage."); // Used for testing 
+
+                break;
+            }
         }
     }
     console.log(count);
@@ -245,11 +284,17 @@ function blockContent() {
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     switch(message.action) {
         case 'block':
-            //if(localStorage.getItem('webRTCBox') === 'true') {
-                blockContent();
-           // }
+              localStorage.setItem('webRTCBox', "true");
             break;
+        case 'blockcleer':
+        localStorage.setItem('webRTCBox', "false");
+        break;
         default:
             break;
     }
 });
+(function() {
+    if(localStorage.getItem('webRTCBox') === 'true') {
+        blockContent();
+    }
+})();

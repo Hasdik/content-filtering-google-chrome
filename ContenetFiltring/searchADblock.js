@@ -74,4 +74,22 @@ function sendNotification(title, options) {
         // В этом месте мы можем, но не будем его беспокоить. Уважайте решения своих пользователей.
     }
 }
-searchad();
+
+// Прослушивание сообщений и вызов функции при получении сообщения «block».
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+    switch(message.action) {
+        case 'adblock':
+              localStorage.setItem('abBlockid', "true");
+            break;
+        case 'adblockcleer':
+        localStorage.setItem('abBlockid', "false");
+        break;
+        default:
+            break;
+    }
+});
+(function() {
+    if(localStorage.getItem('abBlockid') === 'true') {
+        searchad();
+    }
+})();

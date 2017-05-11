@@ -33,38 +33,35 @@ function sendNotification(title, options) {
     }
 }
 
-function init() {
+function initAD() {
 
-    document.getElementById('webRTCBox').onchange = function() {
-        if (document.getElementById('webRTCBox').checked) {
-            localStorage.setItem('webRTCBox', "true");
+    document.getElementById('abBlockid').onchange = function() {
+        if (document.getElementById('abBlockid').checked) {
+            localStorage.setItem('abBlockid', "true");
     chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, { action: 'block' });
+        chrome.tabs.sendMessage(tabs[0].id, { action: 'adblock' });
     });
             //chrome.tts.speak('Включена функция блокировки нежелательного веб-контента');
-            sendNotification('Функция блокировки нежелательного веб-контента', {
+            sendNotification('Функция настраиваемой фильтрация рекламы на веб-странице', {
                 body: 'Включена.',
                 icon: 'vkl.png',
                 dir: 'auto'
             });
         } else {
-            localStorage.setItem('webRTCBox', "false");
+            localStorage.setItem('abBlockid', "false");
                 chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, { action: 'blockcleer' });
+        chrome.tabs.sendMessage(tabs[0].id, { action: 'adblockcleer' });
     });
             // chrome.tts.speak('Отключена функция блокировки нежелательного веб-контента');
-            sendNotification('Функция блокировки нежелательного веб-контента', {
+            sendNotification('Функция настраиваемой фильтрация рекламы на веб-странице', {
                 body: 'Отключена',
                 icon: 'vblkl.png',
                 dir: 'auto'
             });
         }
     }
-    if (localStorage.getItem('webRTCBox') == "true") {
-        document.getElementById("webRTCBox").setAttribute('checked', 'checked');
+    if (localStorage.getItem('abBlockid') == "true") {
+        document.getElementById("abBlockid").setAttribute('checked', 'checked');
     }
 }
-document.addEventListener('DOMContentLoaded', init);
-if (localStorage.getItem('webRTCBox') === "true") {
-
-}
+document.addEventListener('DOMContentLoaded', initAD);
