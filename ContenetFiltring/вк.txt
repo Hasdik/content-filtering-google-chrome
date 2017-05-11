@@ -1,0 +1,54 @@
+
+myArray = [];
+ var countdiv = document.querySelectorAll("div.feed_row").length;
+function postCount() {
+
+    var k = 0;
+     countdiv = document.querySelectorAll("div.feed_row").length;
+    document.getElementById("feed_filters").innerHTML = "Количество постов на странице: " + countdiv;
+
+    var keywords = "Привет";
+
+    for (var i = 0; i < countdiv; ++i) { //через цикл пробегаемся по всем постам
+        var a = document.getElementsByClassName("wall_text")[i].textContent;
+        var b = document.getElementsByClassName("wall_text")[i].textContent;
+        if(a==b)
+        {
+            var obj = document.querySelectorAll("div.feed_row")[j];
+            obj.style.display = "none";
+            k++;
+        }
+        else {
+            console.log('Нет одинаковых постов');
+        }
+    }
+      alert("Скрыто: " + k + " постов");
+    /*
+    for (var j = 0; j < myArray.length; ++j) {
+        if (myArray[j] == myArray[j + 1]) {
+            var obj = document.querySelectorAll("div.feed_row")[j];
+            obj.style.display = "none";
+            k++;
+            console.log('Количество одинаковых постов:' + k);
+        } else {
+            console.log('Нет одинаковых постов');
+        }
+    }
+    alert("Скрыто: " + k + " постов");
+    k = 0;
+    */
+    /*if (~str.indexOf("safdsg")) {
+        k++;
+        //document.getElementsByClassName("wall_text")[i].textContent = "борода";
+      //  alert('совпадение есть!');
+    } else {
+        var obj = document.getElementsByClassName("feed_row")[i];
+        obj.style.display="none";
+        console.log(obj+' скрытть');
+       // document.getElementsByClassName("feed_row")[i].textContent = "Страница скрыта";
+    }*/
+
+}
+
+
+window.addEventListener("scroll", postCount); //wheel

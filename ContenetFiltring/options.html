@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Настройки</title>
+    <meta charset="utf-8">
+    <link href="popup.css" rel="stylesheet" type="text/css">
+    <script src="options.js"></script>
+    <script src="default_filters.js"></script>
+</head>
+
+<body>
+    <center>
+        <h1 style="color:black;"><p>Блокировка вредных сайтов</p></h1>
+        <hr>
+        <button class="button tick" id="disableButton">Отключить
+            <br>блокировку</button>
+        <button class="button tick" id="enableButton">Включить
+            <br>блокировку</button>
+        <hr>
+    </center>
+    <center>
+        <p>
+            <h2 style="color:black;">Список запрещенных сайтов</h2>
+            <select id="filterSelector" size=20></select>
+            <br/>
+            <br>
+            <button class="button tick" id="roeButton">Удалить / отредактировать выбранный фильтр</button>
+        </p>
+        <hr>
+        <table border="0">
+            <tr>
+                <td>
+                    <input class="newfil" type="text" id="newFilter" />
+                </td>
+                <td>
+                    <button id="addNewButton" class="button tick">Add filter</button>
+                </td>
+            </tr>
+        </table>
+      <!--  <hr>
+        <h2>Запрещенные ссылки из реестра</h2>
+        <h3>Количество ссылок: </h3><div id="sitelen"></div>-->
+    </center>
+    <hr>
+    <center>
+        <button class="button tick" id="sortButton">Сортировка
+            <br> фильтров</button>
+        <button class="button tick" id="restoreDefaultsButton">Сбросить
+            <br> настройки</button>
+        <hr>
+        <!-- Кнопка получения запроса текущей вкладки -->
+        <div id="dialog" title="Basic dialog">
+            <div class="container">
+                <form method='post' action='popup.html'>
+                    <button name="buttonVkladka" class="button tick" id="restoreDefaultsButton">Получить запросы текущей вкладки</button>
+                </form>
+            </div>
+        </div>
+    </center>
+    <hr>
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+    <script>
+    var dialog = $("#dialog").dialog({
+        autoOpen: false
+    });
+    $("input[type=button]").click(function() {
+        dialog.dialog("open");
+    });
+    </script>
+</body>
+
+</html>

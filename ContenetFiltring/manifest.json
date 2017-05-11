@@ -1,0 +1,31 @@
+{
+    "name": "Настраиваемая фильтрация контента веб-страниц",
+    "version": "1.1",
+    "manifest_version": 2,
+    "description": "Настраиваемая фильтрация контента веб-страниц. Расширение выполняет следующие функции: блокировка вредных сайтов, фильтрация веб-контента по ключевым словам, настраиваемая фильтрация рекламы на веб-странице.",
+    "browser_action": { // действие для текущей страницы
+        "browser_style": true,
+        "default_icon": "enabled.png", //иконка
+        "default_popup": "setting.html" //  имя html-страницы расширения, которая будет всплывать при нажатии на иконку
+    },
+    //это имя фоновой страницы
+    "background": {
+        "scripts": ["jquery-3.2.1.min.js", "block.js", "default_filters.js", "imagedata.js", "background.js"]
+    },
+    "options_ui": {
+        "page": "setting.html",
+        "chrome_style": true
+    },
+    "icons": {
+        "16": "enabled.png",
+        "48": "enabled_48.png"
+    },
+    // разрешения
+    "permissions": ["http://*/*", "https://*/*", "webRequest", "tts", "webRequestBlocking", "storage", "privacy", "sessions", "notifications", "tabs", "https://vk.com/feed/*", "contextMenus", "https://api.antizapret.info/*", "https://api.antizapret.info/group.php?data=domain","https://easylist-downloads.adblockplus.org/*","https://easylist-downloads.adblockplus.org/easylist.txt"],
+    "content_scripts": [{ // работа с DOM страницы фриланса.
+        "matches": ["<all_urls>"],
+        "js": ["jquery.js", "searchADblock.js", "content.js", "myscript.js"],
+        "run_at": "document_end"
+    }],
+    "incognito": "spanning"
+}
