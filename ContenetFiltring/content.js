@@ -1,5 +1,8 @@
 //функция которая блокирует нежелательный контент
 function blockContent() {
+    chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+    switch (message.action) {
+        case 'block':
     var blockwords = [
         "meat",
         "Alexis Arquette",
@@ -232,24 +235,63 @@ function blockContent() {
             }
             count++;
             console.log("Заблокированное слово найдено: " + blockwords[i] + " (" + subCount + "x)");
+            if (subCount >= 15) {
+                window.stop(); // May be unnecessary.
+
+                var root = document.getElementsByTagName('html')[0]; // Get the root node.
+
+                // Remove all the other nodes of the webpage.
+                while (root.childNodes.length > 0) {
+                    root.removeChild(root.childNodes[0]);
+                } // end while
+
+                //window.alert("Done removing nodes."); // Used for testing
+
+                // Create a head and body node for the webpage.
+                var head = document.createElement('head');
+                var body = document.createElement('body');
+
+                // Add the head node to the webpage.
+                root.appendChild(head);
+
+                // Add a title for the webpage.
+                document.title = "Webpage Censored.";
+
+                // Create a paragraph node along with its text.
+                var paragraph = document.createElement('h1');
+                var text = document.createTextNode('This page has been censored due to an excess amount of inappropriate material.');
+
+                // Give the paragraph node its text.
+                paragraph.appendChild(text);
+
+                // Put the paragraph in the body.
+                body.appendChild(paragraph);
+
+                // Put the body into the webpage.
+                root.appendChild(body);
+
+                //window.alert("Replaced Webpage."); // Used for testing 
+
+                break;
+            }
         }
     }
     console.log(count);
     if (count == 0) {
         console.log("Заблокированные слова не найдены");
     }
-}
-
-
-// Прослушивание сообщений и вызов функции при получении сообщения «block».
-chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-    switch(message.action) {
-        case 'block':
-            //if(localStorage.getItem('webRTCBox') === 'true') {
-                blockContent();
-           // }
-            break;
+                break;
         default:
             break;
     }
 });
+
+}
+
+//var asd;
+// Прослушивание сообщений и вызов функции при получении сообщения «block».
+
+            //if(localStorage.getItem('webRTCBox') === 'true') {
+          //  blockContent();
+            // }
+blockContent();

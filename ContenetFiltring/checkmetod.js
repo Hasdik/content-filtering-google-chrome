@@ -38,7 +38,9 @@ function init() {
     document.getElementById('webRTCBox').onchange = function() {
         if (document.getElementById('webRTCBox').checked) {
             localStorage.setItem('webRTCBox', "true");
-
+                chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+                chrome.tabs.sendMessage(tabs[0].id, {action: 'block'});
+            });
             //chrome.tts.speak('Включена функция блокировки нежелательного веб-контента');
             sendNotification('Функция блокировки нежелательного веб-контента', {
                 body: 'Включена.',
@@ -47,7 +49,7 @@ function init() {
             });
         } else {
             localStorage.setItem('webRTCBox', "false");
-            // chrome.tts.speak('Отключена функция блокировки нежелательного веб-контента');
+           // chrome.tts.speak('Отключена функция блокировки нежелательного веб-контента');
             sendNotification('Функция блокировки нежелательного веб-контента', {
                 body: 'Отключена',
                 icon: 'vblkl.png',
@@ -59,9 +61,4 @@ function init() {
         document.getElementById("webRTCBox").setAttribute('checked', 'checked');
     }
 }
-document.addEventListener('DOMContentLoaded', init);
-if (localStorage.getItem('webRTCBox') === "true") {
-    chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, { action: 'block' });
-    });
-}
+document.addEventListener('DOMContentLoaded', init); 

@@ -1,19 +1,10 @@
-//Дефолтные сайты для блокировка
-defaultFilters = [
-    "*://*.doubleclick.net/*",
-    "*://*.partner.googleadservices.com/*",
-    "*://*.googlesyndication.com/*",
-    "*://*.google-analytics.com/*",
-    "*://*.creative.ak.fbcdn.net/*",
-    "*://*.adbrite.com/*",
-    "*://*.exponential.com/*",
-    "*://*.quantserve.com/*",
-    "*://*.scorecardresearch.com/*",
-    "*://*.zedo.com/*",
-];
-var lengthS;
+//Дефолтные сайты для блокировки
+
+
 //загружаем запрещенные ссылки из реестра
-function GetMethod() {
+//function GetMethod() {
+    defaultFilters = [];
+    var lengthS;
     $.ajax({
         url: "https://api.antizapret.info/group.php?data=domain",
         success: function(result) { //success происходит в случае удачного завершения запроса.
@@ -25,5 +16,6 @@ function GetMethod() {
             }
         }
     });
-}
-document.addEventListener('DOMContentLoaded', GetMethod);
+//}
+//document.addEventListener('DOMContentLoaded', GetMethod);
+//GetMethod();
