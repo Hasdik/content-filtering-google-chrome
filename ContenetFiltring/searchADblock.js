@@ -19,14 +19,13 @@ GetMethod2();
 function searchad() {
     //var ad = $('#ads_left').remove();
     $(function() {
-        $('#ads_left').mouseenter(function() { // Навели на ссылку?
+        $('#ads_left').mouseenter(function() { // Навели на ссылку
             $('#ads_left').css('box-shadow', '0 0 0 2px #ccc', 'inset 0 0 0 2px #ccc');
             $("DIV#ads_left").click(function() {
                 $("DIV#ads_left").fadeOut(); // fadeOut - плавное исчезновение 
+                
                 uved();
                 return false; // не производить переход по ссылке
-
-
             });
         });
     });
@@ -74,4 +73,22 @@ function sendNotification(title, options) {
         // В этом месте мы можем, но не будем его беспокоить. Уважайте решения своих пользователей.
     }
 }
-searchad();
+
+// Прослушивание сообщений и вызов функции при получении сообщения «block».
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+    switch (message.action) {
+        case 'adblock':
+            localStorage.setItem('abBlockid', "true");
+            break;
+        case 'adblockcleer':
+            localStorage.setItem('abBlockid', "false");
+            break;
+        default:
+            break;
+    }
+});
+(function() {
+    if (localStorage.getItem('abBlockid') === 'true') {
+        searchad();
+    }
+})();

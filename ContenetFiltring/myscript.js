@@ -1,4 +1,9 @@
 function postCount() {
+    document.getElementById('filterup').addEventListener('click', function() {
+        var value = document.getElementById('vkFilter').value;
+        // TODO: Do what you want to.
+        alert(value);
+    });
     if (document.querySelectorAll("div.views-row").length > 0) {
         var k = 0;
         var countdiv = document.querySelectorAll("div.views-row").length;
@@ -42,8 +47,10 @@ function postCount() {
     } else {
         console.log("Здесь нет новостей");
     }
+
 }
-postCount();
+//postCount();
+document.addEventListener('DOMContentLoaded', postCount);
 //window.addEventListener("scroll", postCount); //wheel
 //Уведомления
 function sendNotification(title, options) {

@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <link href="settingcss.css" rel="stylesheet" type="text/css">
     <script src="checkmetod.js"></script>
+    <script src="checkAD.js"></script>
     <script src="options.js"></script>
 </head>
 
@@ -17,7 +18,7 @@
     <div id="dialog" title="Настройка">
         <div class="container">
             <form method='post' action='options.html'>
-                <a href="options.html" class="button" style="margin-top: 9px;"><span>✓</span>Настройка блокировки вредных сайтов</a>
+                <a href="options.html" class="button" style="margin-top: 9px;"><span>✓</span>Настройка URL фильтрации</a>
             </form>
         </div>
     </div>
@@ -31,7 +32,7 @@
     <div id="dialog" title="Настройка">
         <div class="container">
             <form method='post'>
-                <a href="#" class="button red" ><span>✓</span>Настройка настраиваемой фильтрация рекламы на веб-странице</a>
+                <a href="#" class="button red" ><span><input id="abBlockid" name="ad" type="checkbox"></span>Настраиваемая фильтрация рекламы на веб-странице</a>
             </form>
         </div>
     </div>
