@@ -14,22 +14,54 @@ function GetMethod2() {
         }
     });
 }
-GetMethod2();
+//GetMethod2();
 
 function searchad() {
+    var k=0;
     //var ad = $('#ads_left').remove();
     $(function() {
-        $('#ads_left').mouseenter(function() { // Навели на ссылку?
+        $('#ads_left').mouseenter(function() { // Навели на ссылку
             $('#ads_left').css('box-shadow', '0 0 0 2px #ccc', 'inset 0 0 0 2px #ccc');
             $("DIV#ads_left").click(function() {
                 $("DIV#ads_left").fadeOut(); // fadeOut - плавное исчезновение 
+                k++;
+                    console.log("Количество скрытой рекламы на странице: "+k);
                 uved();
                 return false; // не производить переход по ссылке
-
-
+            });
+        });
+                $('.right').mouseenter(function() { // Навели на ссылку
+            $('.right').css('box-shadow', '0 0 0 2px #ccc', 'inset 0 0 0 2px #ccc');
+            $("DIV.right").click(function() {
+                $("DIV.right").fadeOut(); // fadeOut - плавное исчезновение 
+                k++;
+                    console.log("Количество скрытой рекламы на странице: "+k);
+                uved();
+                return false; // не производить переход по ссылке
+            });
+        });
+                                $('.Yandex_bottom').mouseenter(function() { // Навели на ссылку
+            $('.Yandex_bottom').css('box-shadow', '0 0 0 2px #ccc', 'inset 0 0 0 2px #ccc');
+            $("DIV.Yandex_bottom").click(function() {
+                $("DIV.Yandex_bottom").fadeOut(); // fadeOut - плавное исчезновение 
+                k++;
+                    console.log("Количество скрытой рекламы на странице: "+k);
+                uved();
+                return false; // не производить переход по ссылке
+            });
+        });
+                                                                $('.left_block').mouseenter(function() { // Навели на ссылку
+            $('.left_block').css('box-shadow', '0 0 0 2px #ccc', 'inset 0 0 0 2px #ccc');
+            $("DIV.left_block").click(function() {
+                $("DIV.left_block").fadeOut(); // fadeOut - плавное исчезновение 
+                k++;
+                    console.log("Количество скрытой рекламы на странице: "+k);
+                uved();
+                return false; // не производить переход по ссылке
             });
         });
     });
+
 }
 
 function uved() {
@@ -74,4 +106,22 @@ function sendNotification(title, options) {
         // В этом месте мы можем, но не будем его беспокоить. Уважайте решения своих пользователей.
     }
 }
-searchad();
+
+// Прослушивание сообщений и вызов функции при получении сообщения «block».
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+    switch (message.action) {
+        case 'adblock':
+            localStorage.setItem('abBlockid', "true");
+            break;
+        case 'adblockcleer':
+            localStorage.setItem('abBlockid', "false");
+            break;
+        default:
+            break;
+    }
+});
+(function() {
+    if (localStorage.getItem('abBlockid') === 'true') {
+        searchad();
+    }
+})();

@@ -1,11 +1,12 @@
-function postCount() {
+
+
+function postCount(result) {
     if (document.querySelectorAll("div.views-row").length > 0) {
         var k = 0;
         var countdiv = document.querySelectorAll("div.views-row").length;
-        var keywords = "гос";
         for (var j = 0; j < countdiv; ++j) { //через цикл пробегаемся по всем постам
             var str = document.getElementsByClassName("views-row")[j].textContent;
-            if (str.search(/гос/i) != -1) {
+            if (~str.indexOf(result)) {
                 k++;
             } else {
                 var obj = document.getElementsByClassName("views-row")[j];
@@ -15,17 +16,17 @@ function postCount() {
         }
 
         sendNotification('Фильтр контента', {
-            body: 'Фильтр вывел все новости с ключевым словом: ' + keywords,
+            body: 'Фильтр вывел все новости с ключевым словом: ' + result,
             icon: 'vkl.png',
             dir: 'auto'
         });
     } else if ((document.getElementsByClassName("news_time").length > 0)) {
         var k = 0;
         var countdiv = document.getElementsByTagName("li").length
-        var keywords = /побед/i;
+       // var keywords = /побед/i;
         for (var j = 0; j < countdiv; ++j) { //через цикл пробегаемся по всем постам
             var str = document.getElementsByTagName("li")[j].textContent;
-            if (str.search(keywords) != -1) {
+            if (~str.indexOf(result)) {
                 k++;
             } else {
                 var obj = document.getElementsByTagName("li")[j];
@@ -33,18 +34,18 @@ function postCount() {
                 console.log("Скрыл");
             }
         }
-
+//вариант поиска str.search(keywords) != -1
         sendNotification('Фильтр контента', {
-            body: 'Фильтр вывел все новости с ключевым словом: ' + keywords,
+            body: 'Фильтр вывел все новости с ключевым словом: ' + result,
             icon: 'vkl.png',
             dir: 'auto'
         });
     } else {
         console.log("Здесь нет новостей");
     }
+
 }
-postCount();
-//window.addEventListener("scroll", postCount); //wheel
+
 //Уведомления
 function sendNotification(title, options) {
     // Проверим, поддерживает ли браузер HTML5 Notifications
@@ -79,3 +80,12 @@ function sendNotification(title, options) {
         // В этом месте мы можем, но не будем его беспокоить. Уважайте решения своих пользователей.
     }
 }
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+    switch (message.action) {
+        case 'value':
+            postCount(message.greeting);
+            break;
+        default:
+            break;
+    }
+});

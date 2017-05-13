@@ -1,4 +1,7 @@
-.niyaz
-{
-	display: none;
+body {
+     background: #A7A9AC;
+    background-image: -webkit-gradient( linear, left top, right top, color-stop(.34, rgba(230, 237, 241, .05)), color-stop(.67, rgba(230, 237, 241, 0)));
+    -webkit-background-size: 5px 5px;
+    width: 700px;
+    font-size: 12pt;
 }

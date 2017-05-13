@@ -55,7 +55,7 @@ function enable(icon = true) {
     if (blockingEnabled) {
         return;
     }
-
+    
     // edge case: включение с URL == [] будет блокировать * все * URL,
     // а не ни один из них
     if (allFilters.length > 0) {
