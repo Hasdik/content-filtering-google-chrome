@@ -6,12 +6,18 @@
  * */
 
 allFilters = null;
+allFiltersnews = null;
 
 function setFilters(newFilters) {
     allFilters = newFilters;
     chrome.storage.local.set({ "filters": newFilters });
 }
 
+
+function setFiltersto(newFiltersto) {
+    allFiltersnews = newFiltersto;
+    chrome.storage.local.set({ "rdfilters": newFiltersto });
+}
 // магические объекты, которые интерпретирует API webRequest.
 // мы превращаем образы и iframe в безобидные no-ops, все остальное становится прямым "отмененным"
 blockImagePayload = { redirectUrl: "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEAAAAALAAAAAABAAEAAAI=" };
@@ -55,15 +61,13 @@ function enable(icon = true) {
     if (blockingEnabled) {
         return;
     }
-
     // edge case: включение с URL == [] будет блокировать * все * URL,
     // а не ни один из них
     if (allFilters.length > 0) {
-
         for (var j in listenerCallbacks) {
             var types = listenerCallbacks[j][0];
             var callback = listenerCallbacks[j][1];
-
+           // alert(allFilters);
             chrome.webRequest.onBeforeRequest.addListener(
                 callback, { urls: allFilters, types: types },
 
@@ -75,9 +79,14 @@ function enable(icon = true) {
         }
 
     }
-
     blockingEnabled = true;
-//уведомление можно сюда перенести
+}
+function disableto() {
+    localStorage.clear();
+}
+function enbaleto() {
+
+    localStorage.setItem('urls', JSON.stringify(allFiltersnews));
 }
 
 
@@ -91,7 +100,7 @@ function disable(icon = true) {
 
     blockingEnabled = false;
 
-//уведомление можно сюда перенести
+    //уведомление можно сюда перенести
 }
 
 // цикл питания
@@ -104,13 +113,13 @@ function refreshFilters() {
 }
 
 // switch-flip
-function toggleEnabled() {
+/*function toggleEnabled() {
     if (blockingEnabled) {
         disable();
     } else {
         enable();
     }
-}
+}*/
 //Уведомления
 function sendNotification(title, options) {
     // Проверим, поддерживает ли браузер HTML5 Notifications
@@ -145,13 +154,36 @@ function sendNotification(title, options) {
         // В этом месте мы можем, но не будем его беспокоить. Уважайте решения своих пользователей.
     }
 }
-// Инициализация.
 
+function v() {
+    // Инициализация.
+    chrome.storage.local.get("rdfilters",
+        function(result) {
+            if (result["rdfilters"] == undefined) {
+                console.log("Инициализация фильтров по умолчанию.");
+                setFiltersto(defaultFiltersto);
+
+            } else {
+                setFiltersto(result["rdfilters"]);
+                allFiltersnews = result["rdfilters"];
+            }
+
+
+            // переключение блокировки вкл-выкл через значок расширения в Omnibar
+            //  chrome.browserAction.onClicked.addListener(toggleEnabled);
+            // включение основного экрана
+            enbaleto();
+        }
+    );
+}
+
+v();
 chrome.storage.local.get("filters",
     function(result) {
         if (result["filters"] == undefined) {
             console.log("Инициализация фильтров по умолчанию.");
             setFilters(defaultFilters);
+
         } else {
             setFilters(result["filters"]);
             allFilters = result["filters"];
@@ -159,8 +191,18 @@ chrome.storage.local.get("filters",
 
 
         // переключение блокировки вкл-выкл через значок расширения в Omnibar
-        chrome.browserAction.onClicked.addListener(toggleEnabled);
+        //chrome.browserAction.onClicked.addListener(toggleEnabled);
         // включение основного экрана
         enable();
     }
+);
+chrome.webRequest.onBeforeRequest.addListener(
+    function(details) {
+        var urls = JSON.parse(localStorage.getItem('urls'));
+        // alert(urls);
+        var isCancel = urls.some(function(url) {
+            return details.url.indexOf(url) != -1;
+        });
+        return { cancel: !isCancel };
+    }, { urls: ["<all_urls>"] }, ["blocking"]
 );

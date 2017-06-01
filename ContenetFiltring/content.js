@@ -159,7 +159,6 @@ function blockContent() {
         "криминал",
         "изнасилование",
     ]
-
     var count = 0;
     console.log("Пользовательский фильтр проверяет наличие заблокированных слов:");
     var scanText = document.documentElement.innerHTML.toLowerCase();
@@ -169,10 +168,10 @@ function blockContent() {
         var offence = blockwords[i].toLowerCase();
         if (scanText.search(blockwords[i].toLowerCase()) != -1) {
             var subCount = 0;
-
             for (var j = max - 1; j > -1; j--) {
                 var placeholder = document.createElement("div");
                 var placeTxt = document.createTextNode("Обнаружен нежелательный веб-контент");
+
                 placeholder.appendChild(placeTxt);
                 placeholder.style.color = "red";
                 if (all[j]) {
@@ -180,8 +179,8 @@ function blockContent() {
                         var lowerText = all[j].innerText.toLowerCase();
                         if (lowerText.indexOf(offence) != -1) {
                             subCount++;
-                            localStorage.getItem(all[j].parentNode.appendChild(placeholder));
-                            localStorage.getItem(all[j].parentNode.removeChild(all[j]));
+                            all[j].parentNode.appendChild(placeholder);
+                            all[j].parentNode.removeChild(all[j]);
                             delete all[j];
                             continue;
                         }
@@ -190,18 +189,19 @@ function blockContent() {
                         var href = all[j].getAttribute("href").toLowerCase();
                         if (href.indexOf(offence) != -1) {
                             subCount++;
-                            localStorage.getItem(all[j].parentNode.appendChild(placeholder));
-                            localStorage.getItem(all[j].parentNode.removeChild(all[j]));
+                            all[j].parentNode.appendChild(placeholder);
+                            all[j].parentNode.removeChild(all[j]);
                             delete all[j];
                             continue;
+
                         }
                     }
                     if (all[j].getAttribute("alt")) {
                         var alt = all[j].getAttribute("alt").toLowerCase();
                         if (alt.indexOf(offence) != -1) {
                             subCount++;
-                            localStorage.getItem(all[j].parentNode.appendChild(placeholder));
-                            localStorage.getItem(all[j].parentNode.removeChild(all[j]));
+                            all[j].parentNode.appendChild(placeholder);
+                            all[j].parentNode.removeChild(all[j]);
                             delete all[j];
                             continue;
                         }
@@ -210,8 +210,8 @@ function blockContent() {
                         var src = all[j].getAttribute("src").toLowerCase();
                         if (src.indexOf(offence) != -1) {
                             subCount++;
-                            localStorage.getItem(all[j].parentNode.appendChild(placeholder));
-                            localStorage.getItem(all[j].parentNode.removeChild(all[j]));
+                            all[j].parentNode.appendChild(placeholder);
+                            all[j].parentNode.removeChild(all[j]);
 
                             delete all[j];
                             continue;
@@ -221,8 +221,8 @@ function blockContent() {
                         var src = all[j].getAttribute("title").toLowerCase();
                         if (src.indexOf(offence) != -1) {
                             subCount++;
-                            localStorage.getItem('myKey2', all[j].parentNode.appendChild(placeholder));
-                            localStorage.getItem('myKey12', all[j].parentNode.removeChild(all[j]));
+                            all[j].parentNode.appendChild(placeholder);
+                            all[j].parentNode.removeChild(all[j]);
                             delete all[j];
                             continue;
                         }
@@ -232,6 +232,45 @@ function blockContent() {
             }
             count++;
             console.log("Заблокированное слово найдено: " + blockwords[i] + " (" + subCount + "x)");
+            if (subCount >= 5) {
+                window.stop(); // May be unnecessary.
+
+                var root = document.getElementsByTagName('html')[0]; // Get the root node.
+
+                // Remove all the other nodes of the webpage.
+                while (root.childNodes.length > 0) {
+                    root.removeChild(root.childNodes[0]);
+                } // end while
+
+                //window.alert("Done removing nodes."); // Used for testing
+
+                // Create a head and body node for the webpage.
+                var head = document.createElement('head');
+                var body = document.createElement('body');
+
+                // Add the head node to the webpage.
+                root.appendChild(head);
+
+                // Add a title for the webpage.
+                document.title = "Веб-страница с цензурой.";
+
+                // Create a paragraph node along with its text.
+                var paragraph = document.createElement('h1');
+                var text = document.createTextNode('Эта страница была подвергнута цензуре из-за избытка несоответствующего материала.');
+
+                // Give the paragraph node its text.
+                paragraph.appendChild(text);
+
+                // Put the paragraph in the body.
+                body.appendChild(paragraph);
+
+                // Put the body into the webpage.
+                root.appendChild(body);
+
+                //window.alert("Replaced Webpage."); // Used for testing 
+
+                break;
+            }
         }
     }
     console.log(count);
@@ -243,13 +282,20 @@ function blockContent() {
 
 // Прослушивание сообщений и вызов функции при получении сообщения «block».
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-    switch(message.action) {
+    switch (message.action) {
         case 'block':
-            //if(localStorage.getItem('webRTCBox') === 'true') {
-                blockContent();
-           // }
+            localStorage.setItem('webRTCBox', "true");
+            break;
+        case 'blockcleer':
+            localStorage.setItem('webRTCBox', "false");
             break;
         default:
             break;
     }
 });
+(function() {
+    if (localStorage.getItem('webRTCBox') === 'true') {
+        blockContent();
+    }
+})();
+

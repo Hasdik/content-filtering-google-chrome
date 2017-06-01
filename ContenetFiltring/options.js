@@ -87,7 +87,6 @@ function restoreDefaults() {
     //if (!chrome.extension.getBackgroundPage().confirm("Это приведет к удалению пользовательских фильтров. Вы уверены?")) {
    //     return;
    // }
-
     var bgPage = chrome.extension.getBackgroundPage();
     bgPage.setFilters(bgPage.defaultFilters);
     bgPage.refreshFilters();
@@ -170,7 +169,8 @@ function init() {
         });
     });
     document.getElementById("sortButton").addEventListener('click', sortFilters);
-    document.getElementById("webRTCBox").addEventListener('click', checkMethod);
+    //document.getElementById("webRTCBox").addEventListener('click', checkMethod);
+
 }
 
 document.addEventListener('DOMContentLoaded', init);

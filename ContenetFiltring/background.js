@@ -93,3 +93,8 @@ function ReSync() {
     // Подождите секунду, чтобы завершить загрузку URL-адресов
     setTimeout(function() {}, 1000);
 }
+//storage.clear();
+
+
+
+
