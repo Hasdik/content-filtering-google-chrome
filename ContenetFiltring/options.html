@@ -48,6 +48,8 @@
             <br> фильтров</button>
         <button class="button tick" id="restoreDefaultsButton">Сбросить
             <br> настройки</button>
+         <!--<hr>
+        <button name="buttonVkladka" class="button tick" id="downloadurl">Получить ссылки из реестра</button>-->
         <hr>
         <!-- Кнопка получения запроса текущей вкладки -->
         <div id="dialog" title="Basic dialog">
@@ -57,19 +59,12 @@
                 </form>
             </div>
         </div>
+        <hr>
+        <form method='post' action='control.html'>
+                    <button name="buttonVkladka" class="button tick" id="restoreDefaultsButton">Родительский контроль</button>
+                </form>
     </center>
     <hr>
-    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
-    <script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
-    <script>
-    var dialog = $("#dialog").dialog({
-        autoOpen: false
-    });
-    $("input[type=button]").click(function() {
-        dialog.dialog("open");
-    });
-    </script>
 </body>
 
 </html>

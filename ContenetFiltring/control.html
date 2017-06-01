@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Родительский контроль</title>
+    <meta charset="utf-8">
+    <link href="popup.css" rel="stylesheet" type="text/css">
+    <script src="control.js"></script>
+    <script src="default_filters.js"></script>
+</head>
+
+<body>
+    <style>
+    .brd {
+        border: 4px double black;
+        /* Параметры границы */
+        padding: 10px;
+        /* Поля вокруг текста */
+    }
+    
+    select {
+        width: 300px;
+        /* Ширина списка в пикселах */
+    }
+    
+    .vb {
+        margin-left: 30px;
+    }
+    </style>
+    <center>
+        <h1 style="font: 14px/100% Arial, Helvetica, sans-serif;">Родительский контроль</h1>
+        <hr>
+        <center>
+            <button class="button tick" id="disableButton">Отключить
+                <br>блокировку</button>
+            <button class="button tick" id="enableButton">Включить
+                <br>блокировку</button>
+            <hr>
+        </center>
+        <h2>Добавьте ссылки сайтов для которых хотите открыть доступ!</h2>
+        <div class="brd">
+            <select id="filterSelector" size=20></select>
+            <br>
+            <br>
+    </center>
+    <br>
+    <div class="vb">
+        <label style="font: 14px/100% Arial, Helvetica, sans-serif;text-align: left;" for="">Введите url адрес сайта: </label>
+        <br>
+        <input class="newfil" type="text" id="newFilter" />
+        <button id="addNewButton" class="button tick">Добавить</button>
+        <hr>
+        <center>
+            <button class="button tick" id="roeButton">Удалить / отредактировать выбранный фильтр</button>
+            <hr>
+            <button class="button" id="restoreDefaultsButton">Сбросить настройки</button>
+        </center>
+        <hr>
+    </div>
+    </div>
+</body>
+
+</html>
